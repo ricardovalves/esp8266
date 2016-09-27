@@ -1,0 +1,21 @@
+<html>
+	<head>
+		<script>
+			var connection = new WebSocket('ws://192.168.1.173:81');
+				connection.onopen = function(response) {
+			};
+	
+			function on() {	
+				connection.send("ON"); 
+			}
+
+			function off() {	
+				connection.send("OFF"); 
+			}
+		</script>
+	</head>
+	<body>
+		<button onclick="on()">ON</button>
+		<button onclick="off()">OFF</button>
+	</body>
+</html>
