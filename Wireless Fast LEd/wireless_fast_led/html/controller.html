@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+        <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    </head>
+    <body>
+
+        <div data-role="page">
+
+            <div data-role="main" class="ui-content">
+                <div style="height: 75px">
+                    <label for="red">Red:</label>
+                    <input type="range" name="red" id="red" value="255" min="0" max="255">
+                </div>
+                <div style="height: 75px">
+                    <label for="green">Green:</label>
+                    <input type="range" name="green" id="green" value="0" min="0" max="255">
+                </div>
+                <div style="height: 75px">
+                    <label for="blue">Blue:</label>
+                    <input type="range" name="blue" id="blue" value="0" min="0" max="255">
+                </div>
+                <div style="height: 75px">
+                    <label for="brightness">Brightness:</label>
+                    <input type="range" name="brightness" id="brightness" value="255" min="0" max="255">
+                </div>
+            
+                <div id="color" style="height: 50px; background-color: rgb(255,0,0)"></div>
+            </div>
+        </div>
+        
+        <script>
+            
+            $(document).on("pagecreate",function(){
+                
+                // create socket connection
+                var connection = new WebSocket('ws://192.168.1.173:81');
+                connection.onopen = function(response) {
+                    connection.send("255,0,0,255");
+		        };
+                
+                var red = 255;
+                var green = 0;
+                var blue = 0;                
+                var brightness = 255;
+                
+                $( "#red" ).bind( "change", function(event, ui) {
+                    red = this.value;
+                    updateColors(red, green, blue, brightness)
+                });
+                
+                $( "#green" ).bind( "change", function(event, ui) {
+                    green = this.value;
+                    updateColors(red, green, blue, brightness)
+                });
+                
+                $( "#blue" ).bind( "change", function(event, ui) {
+                    blue = this.value;
+                    updateColors(red, green, blue, brightness)
+                });
+                
+                $( "#brightness" ).bind( "change", function(event, ui) {
+                    brightness = this.value;
+                    updateColors(red, green, blue, brightness)
+                });                
+            });
+      
+      
+            function updateColors(red, green, blue, brightness) {
+                $("#color").css("background-color", "rgb(" + red + "," + green + "," + blue + ")");
+                connection.send(red + "," + green + "," + blue + "," + brightness);
+            }
+        </script>
+    </body>
+</html>
