@@ -75,8 +75,8 @@ void setup() {
   webSocket.begin();
   webSocket.onEvent(webSocketEvent);
 
-  delay( 3000 ); // power-up safety delay
-  FastLED.addLeds<APA102, DATA_PIN, CLOCK_PIN, BRG>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
+  delay( 1000 ); // power-up safety delay
+  FastLED.addLeds<APA102, DATA_PIN, CLOCK_PIN, BGR>(leds, NUM_LEDS);
 
   FastLED.setBrightness(255);
   // clear
@@ -90,9 +90,8 @@ void loop() {
 }
 
 void fillLedStrip(int red, int green, int blue, int brightness) {
-    
   for(int i=0; i<NUM_LEDS; i++) {
-    leds[i] = CRGB(red, green, blue);
+    leds[i] = CRGB(red,green,blue);
   }
   FastLED.setBrightness(brightness);
   FastLED.show();  
