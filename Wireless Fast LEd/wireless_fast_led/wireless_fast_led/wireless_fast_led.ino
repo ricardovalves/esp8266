@@ -31,8 +31,29 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length
       break;
     }
     case WStype_TEXT: {
-      String text = String((char *) &payload[0]);
+            
+      char* incoming = (char *) &payload[0];
+      Serial.printf("Received payload: %s\n", incoming);
       
+      char* token = strtok(incoming, ",");
+      int red = atoi(token);
+      Serial.printf("RED: %i ", red);
+
+      token = strtok(NULL, ",");
+      int green = atoi(token);
+      Serial.printf("GREEN: %i ", green);
+
+      token = strtok(NULL, ",");
+      int blue = atoi(token);
+      Serial.printf("BLUE: %i ", blue);
+
+      token = strtok(NULL, ",");
+      int brightness = atoi(token);
+      Serial.printf("BRIGHTNESS: %i\n", brightness);
+
+      FastLED.clear();
+      fillLedStrip(red, green, blue, brightness);
+            
       break;
     }
   }
@@ -59,7 +80,7 @@ void setup() {
 
   FastLED.setBrightness(255);
   // clear
-  clear();
+  FastLED.clear();
 
   fillLedStrip(255, 0, 0, 255);
 }
@@ -69,10 +90,11 @@ void loop() {
 }
 
 void fillLedStrip(int red, int green, int blue, int brightness) {
+    
   for(int i=0; i<NUM_LEDS; i++) {
     leds[i] = CRGB(red, green, blue);
   }
   FastLED.setBrightness(brightness);
-  FastLED.show();
+  FastLED.show();  
 }
 

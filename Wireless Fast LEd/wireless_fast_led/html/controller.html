@@ -34,18 +34,20 @@
         
         <script>
             
+            var connection;                
+            var red = 255;
+            var green = 0;
+            var blue = 0;                
+            var brightness = 255;
+
             $(document).on("pagecreate",function(){
                 
                 // create socket connection
-                var connection = new WebSocket('ws://192.168.1.173:81');
+                connection = new WebSocket('ws://192.168.1.173:81');
                 connection.onopen = function(response) {
                     connection.send("255,0,0,255");
 		        };
-                
-                var red = 255;
-                var green = 0;
-                var blue = 0;                
-                var brightness = 255;
+
                 
                 $( "#red" ).bind( "change", function(event, ui) {
                     red = this.value;
