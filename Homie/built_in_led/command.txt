@@ -1,0 +1,5 @@
+curl -X PUT http://192.168.1.1/config --header "Content-Type: application/json" -d @config.json
+
+curl -F upload=@built_in_led.ino.nodemcu.bin -F description="built in led with firmware 1.0.2" http://192.168.1.174/upload
+
+mosquitto_pub -t devices/24859-cef/light/on/set -m "false"

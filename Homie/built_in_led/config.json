@@ -1,0 +1,19 @@
+{
+  "name": "Light on off",
+  "device_id": "24859-cef",
+  "wifi": {
+    "ssid": "Ricardo Alves",
+    "password": "2079A22DE1"
+  },
+  "mqtt": {
+    "host": "192.168.1.174",
+    "port": 1883,
+    "base_topic": "devices/",
+    "auth": false
+  },
+  "ota": {
+    "enabled": true,
+	"port": 9080,
+	"path": "/ota"
+  }
+}
