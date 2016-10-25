@@ -7,11 +7,16 @@
 		<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 	</head>
 	<body>
-		<button id=but></button>
+		<button id=on>ON</button>
+		<button id=off>OFF</button>
 		<script>
 			$(document).on("pagecreate", function() {
-				$("#but").bind("click", function(event, ui) {
-					$.post("/publish", {color: "#AABBCC"});
+				$("#on").bind("click", function(event, ui) {
+					$.post("/publish", {command: "true"});
+				});
+				
+				$("#off").bind("click", function(event, ui) {
+					$.post("/publish", {command: "false"});
 				});
 			});
 		</script>

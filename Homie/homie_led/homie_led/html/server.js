@@ -30,11 +30,13 @@ app.post('/publish', function(req, res) {
   var client = mqtt.connect('mqtt://192.168.1.174:1883');
   client.on('connect', function() {
   	// todo: change message here. topic, message
-  	console.log(req.body.color);
-    client.publish('t1', new Date().toString());
+	var command = req.body.command;
+    client.publish('devices/24859-cef/light/on/set', command);
+	res.send();
   });
 });
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
+
