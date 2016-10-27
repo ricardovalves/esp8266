@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+        <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    </head>
+	<body>
+        <div data-role="page">
+            <div data-role="main" class="ui-content">
+                <div style="height: 75px">
+                    <label for="hue">Hue:</label>
+                    <input type="range" name="hue" id="hue" value="0" min="0" max="360">
+                </div>
+                <div style="height: 75px">
+                    <label for="saturation">Saturation:</label>
+                    <input type="range" name="saturation" id="saturation" value="100" min="0" max="100">
+                </div>
+                <div style="height: 75px">
+                    <label for="value">Value:</label>
+                    <input type="range" name="value" id="value" value="50" min="0" max="100">
+                </div>                
+            
+                <div id="color" style="height: 50px; background-color: hsl(0,100%,50%)"></div>
+            </div>
+        </div>
+		<script>
+		
+			var hue = 0;
+            var saturation = 100;
+            var value = 50;
+
+			function map(value, from, to) {
+				return value * to / from;
+			}
+			$(document).on("pagecreate", function() {
+				$( "#hue" ).bind( "change", function(event, ui) {
+                    hue = this.value;
+                    updateColors(hue, saturation, value)
+                });
+                
+                $( "#saturation" ).bind( "change", function(event, ui) {
+                    saturation = this.value;
+                    updateColors(hue, saturation, value)
+                });
+                
+                $( "#value" ).bind( "change", function(event, ui) {
+                    value = this.value;
+                    updateColors(hue, saturation, value)
+                });       
+			});
+			
+			function updateColors(hue, saturation, value) {
+				
+				var realHue = Math.round(map(hue, 360, 255));
+				var realSaturation = Math.round(map(saturation, 100, 255));
+				var realValue = Math.round(map(value, 100, 255));				
+				
+				// update selected color
+                $("#color").css("background-color", "hsl(" + hue + "," + saturation + "%," + value + "%)");
+				
+				// get hexadecimal color
+				var color = getTwoByteRepresentation(realHue) + getTwoByteRepresentation(realSaturation) + getTwoByteRepresentation(realValue);
+				
+				// invoke publish rest api
+				$.post("/publish", {color: color});
+            }
+			
+			function getTwoByteRepresentation(number) {
+				var result = number.toString(16) + "";
+				if(number <= 15) {
+					result = "0"+result;
+				}
+				return result;
+			}
+		</script>
+	</body>
+</html>

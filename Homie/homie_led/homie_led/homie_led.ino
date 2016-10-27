@@ -1,5 +1,4 @@
 #define FASTLED_ESP8266_RAW_PIN_ORDER
-#define FASTLED_FORCE_SOFTWARE_SPI
 
 #include <FastLED.h>
 #include <Homie.h>
@@ -76,10 +75,15 @@ void loop() {
 void render() {
   FastLED.clear();
   random16_set_seed(0);
+
+  Serial.printf("Hue: %u, Sat: %u, Val: %u\n", color.hue, color.sat, color.val);
+  
   for (int i = 0; i < NUM_LEDS; i++) {
     uint8_t hue = color.hue;
     uint8_t sat = color.sat;
     uint8_t val = color.val;    
     leds[i] = CHSV(hue, sat, val);
   }
+
+  FastLED.show();
 }
